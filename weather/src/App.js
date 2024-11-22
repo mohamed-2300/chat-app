@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Chat, Channel, ChannelHeader, MessageInput, MessageList, Thread, Window } from "stream-chat-react";
 import { StreamChat } from "stream-chat";
 import "stream-chat-react/dist/css/v2/index.css";
+import { chatConfig } from "./config";
 
-const client = StreamChat.getInstance("7nhdjgkdmstq"); // Replace with your actual API Key
+const client = StreamChat.getInstance(chatConfig.apiKey);
 
 const App = () => {
   const [isConnected, setIsConnected] = useState(false);
@@ -13,17 +14,23 @@ const App = () => {
   useEffect(() => {
     const setupChat = async () => {
       try {
-        // If using a backend token, fetch it from your server
-        const validToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoic3R1ZGVudDEyMyJ9.chE5SMvZRoc40gqRPkP5twLfVF8slnnm4fqu4MaYobw"; // Replace with the token from your API Explorer or Backend
+        // Use a server-generated token
+        const serverToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoic3R1ZGVudDEyMyJ9.chE5SMvZRoc40gqRPkP5twLfVF8slnnm4fqu4MaYobw"; // Replace with your actual server token
 
         await client.connectUser(
-          { id: "student123", name: "Student" },
-          validToken
+          {
+            id: "student123",
+            name: "Student",
+          },
+          serverToken
         );
 
-        const chatChannel = client.channel("messaging", "react-chat", { name: "React Chat" });
+        // Initialize the channel
+        const chatChannel = client.channel("messaging", "react-chat", {
+          name: "React Chat",
+        });
         await chatChannel.watch();
-        
+
         setChannel(chatChannel);
         setIsConnected(true);
       } catch (err) {
