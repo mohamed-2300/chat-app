@@ -18,7 +18,7 @@ src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <div id="app"></div>
 </body>
 <script type="text/babel">
-const Product = ({nom}, {price}, {categorie}) => {
+const Product = ({nom,price,categorie}) => {
   return (
    <div>
     <h1>{nom}</h1>
